@@ -4,7 +4,7 @@ import torch
 
 
 # Load data corpus collection
-collection_name = 'image_matching_collection'
+collection_name = 'ECIR23_Charades_v1'
 collection = Collection(collection_name)
 collection.load()
 

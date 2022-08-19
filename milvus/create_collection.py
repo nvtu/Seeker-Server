@@ -10,7 +10,7 @@ from pymilvus import (
 import connect
 
 
-collection_name = 'image_matching_collection'
+collection_name = 'ECIR23_Charades_v1'
 # Drop collection if it exists to create a new one
 if utility.has_collection(collection_name):
     utility.drop_collection(collection_name)
@@ -26,7 +26,7 @@ _id = FieldSchema(
 embedding = FieldSchema(
     name = 'embedding',
     dtype = DataType.FLOAT_VECTOR,
-    dim = 512
+    dim = 768
 )
 
 

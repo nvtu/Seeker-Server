@@ -1,6 +1,7 @@
 from torch.utils.data import Dataset
 from PIL import Image
 from typing import List
+import numpy as np
 
 
 class ImageMatchingDataset(Dataset):

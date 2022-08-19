@@ -2,11 +2,11 @@ import connect
 from pymilvus import Collection, utility
 
 
-collection_name = 'image_matching_collection'
+collection_name = 'ECIR23_Charades_v1'
 collection = Collection(collection_name)
 
 # Drop index if it exists
-collection.drop_index()
+# collection.drop_index()
 
 
 index_params = {
