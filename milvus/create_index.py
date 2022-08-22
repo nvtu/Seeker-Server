@@ -10,10 +10,10 @@ collection = Collection(collection_name)
 
 
 index_params = {
-    'metric_type': 'L2',
+    'metric_type': 'IP',
     'index_type': 'IVF_FLAT',
     'params': {
-        'nlist': 1024,
+        'nlist': 4096,
     }
 }
 

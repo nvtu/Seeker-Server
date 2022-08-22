@@ -5,11 +5,13 @@ from fastapi.encoders import jsonable_encoder
 from models.response_models import VideoInformationResponse
 from typing import List
 from server_managers import rd
+import numpy as np
 
 
 def process_milvus_search_results(results) -> List[VideoInformationResponse]:
     images = list(results[0].ids)
     scores = list(results[0].distances)
+    
     group_by_video = defaultdict(list)
 
     # Group ranked list frames by video
@@ -21,7 +23,11 @@ def process_milvus_search_results(results) -> List[VideoInformationResponse]:
     # Sort frames by score
     videos = []
     for video_name, items in group_by_video.items():
-        video_score = sum([score for (_, score) in items])
+
+        # Compute the weighted video score
+        video_scores = [score for (_, score) in items]
+        video_score = np.mean(video_scores)
+
         ranked_frame_list = sorted(items, key=lambda x: x[1])
         videos.append((video_score, 
             VideoInformationResponse(
@@ -30,7 +36,8 @@ def process_milvus_search_results(results) -> List[VideoInformationResponse]:
             )))
     
     # Sort videos by video score
-    ranked_list = [video_information_response for (_, video_information_response) in sorted(videos, key=lambda x: x[0])]
+    video_sorted_scores = sorted(videos, key=lambda x: x[0], reverse=True)
+    ranked_list = [video_information_response for (_, video_information_response) in video_sorted_scores]
     return ranked_list
 
 

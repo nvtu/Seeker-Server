@@ -16,9 +16,9 @@ collection = Collection(collection_name)
 collection.load()
 
 milvus_search_params = {
-    'metric_type': 'L2',
+    'metric_type': 'IP',
     'params': {
-        'nprobe': 10
+        'nprobe': 128
     }
 }
 
@@ -28,3 +28,8 @@ if rd.ping():
     print('Redis server is running')
 else:
     print('Redis server is not running')
+
+
+# Load all frames mapping
+metadata_path = '/mnt/DATA/nvtu/ECIR23/Charades_v1_metadata.json'
+all_frames_mapping = json.load(open(metadata_path, 'r'))

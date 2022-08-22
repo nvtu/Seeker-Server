@@ -1,5 +1,8 @@
+from locale import normalize
 import torch
 import clip
+from sklearn.preprocessing import normalize
+import numpy as np
 
 
 class CLIP:
@@ -26,9 +29,10 @@ class CLIP:
     def encode_text(self, text):
         """
         Encodes text into a vector using CLIP model.
+        NOTE: Encode only one sentence.
         """
         with torch.no_grad():
             tokenized_text = clip.tokenize(text).to(self.device)
             text_features = self.model.encode_text(tokenized_text)
-            text_features /= text_features.norm(dim=-1, keepdim=True)
-        return text_features[0]
+            text_features = torch.Tensor(normalize(text_features.detach().cpu().reshape(1, -1)).flatten().tolist())
+        return text_features

@@ -1,10 +1,12 @@
 import json
 import numpy as np
+import os
 from utils.hash_utils import generate_state_hash
 from utils.connection_utils import send
 from utils.response_utils import process_milvus_search_results, cache_query_result
-from server_managers import collection, milvus_search_params, CLIP_SERVER_URL
+from server_managers import collection, milvus_search_params, CLIP_SERVER_URL, all_frames_mapping
 from models.response_models import QueryResponseBaseModel
+from typing import List
 
 
 def encode_text(text_query):
@@ -14,11 +16,14 @@ def encode_text(text_query):
 
 
 def search_by_embedded_text(embedded_text):
+
+    LIMIT = 1000 # The maximum number of results to return
+
     results = collection.search(
         data = [embedded_text],
         anns_field = 'embedding',
         param = milvus_search_params,
-        limit = 100,
+        limit = LIMIT,
         expr = None,
         consistent_level = "Strong",
     )
@@ -50,3 +55,8 @@ def do_search(user_id: str, state_id: str, text_query) -> QueryResponseBaseModel
     )
 
     return response
+
+
+def get_all_frames_from_video(shot_id: str) -> List[str]:
+    frames = [os.path.splitext(frame)[0] for frame in all_frames_mapping[shot_id]]
+    return frames

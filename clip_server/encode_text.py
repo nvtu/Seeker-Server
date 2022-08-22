@@ -5,7 +5,7 @@ device = 'cuda'
 
 if __name__ == '__main__':
 
-    text = 'This is a test'
+    text = 'A boy is in the kitchen, sitting on a chair. He gets up to look out the window.'
     model = CLIP(model_name, device)
 
     print(model.encode_text(text).shape)

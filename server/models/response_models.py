@@ -18,3 +18,8 @@ class QueryResponseBaseModel(BaseModel):
 class QueryByTextResponse(BaseModel):
     result: str
     reply: QueryResponseBaseModel
+
+
+class GetAllFramesResponse(BaseModel):
+    result: str
+    reply: List[str] = []# List of image ids

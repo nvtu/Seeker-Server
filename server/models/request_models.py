@@ -6,3 +6,6 @@ class QueryByText(BaseModel):
     state_id: str
     query: str
 
+
+class GetAllFrames(BaseModel):
+    shot_id: str
